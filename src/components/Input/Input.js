@@ -1,13 +1,10 @@
 import "./Input.css";
-import { useEffect, useState } from "react";
 const Input = ({ value, onChange }) => {
 	const handleInputChange = (e) => {
 		onChange(e);
 	};
-
 	return (
 		<>
-			{/* {dataTOUpdate.map((item, index) => ( */}
 			<input
 				placeholder="Enter Description"
 				className="input"
@@ -17,7 +14,6 @@ const Input = ({ value, onChange }) => {
 				value={value}
 				onChange={(e) => handleInputChange(e.target.value)}
 			/>
-			{/* ))} */}
 		</>
 	);
 };

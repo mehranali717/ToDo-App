@@ -4,23 +4,27 @@ import Button from "../../Button/Button";
 import plusIcon from "../../../Assets/Images/plus-solid.svg";
 import "./AddItem.css";
 const AddItem = ({ labelName, value, recordHandler }) => {
-	console.log({ labelName });
 	const [updatedData, setupdatedData] = useState("");
 	const recordChangeHandler = (newItem) => {
-		// debugger;
 		setupdatedData(newItem);
 	};
 	useEffect(() => {
 		setupdatedData(value);
-	}, [recordHandler]);
+	}, [value]);
 	return (
 		<>
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
 				<label htmlFor="description" className="formLabel">
-					{value ? labelName.update : labelName.discription}
+					{labelName}
 				</label>
 				<Input onChange={recordChangeHandler} value={updatedData} />
-				<Button icon={plusIcon} onClick={() => recordHandler(updatedData)} />
+				<Button
+					icon={plusIcon}
+					onClick={() => {
+						recordHandler(updatedData);
+						setupdatedData("");
+					}}
+				/>
 				<div className="hrLine"></div>
 			</form>
 		</>

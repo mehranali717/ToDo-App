@@ -14,6 +14,7 @@ const Home = () => {
 		setListData(listData.filter((ele, key) => key !== index));
 	};
 	const updateRecordHandler = (item) => {
+		setdataTOUpdate("");
 		const index = valueIndex.index;
 		let updatedList = [...listData];
 		updatedList[index] = item;
@@ -26,12 +27,15 @@ const Home = () => {
 	return (
 		<>
 			{!dataTOUpdate ? (
-				<AddItem recordHandler={updatedData} labelName={labelName} />
+				<AddItem
+					recordHandler={updatedData}
+					labelName={labelName.discription}
+				/>
 			) : (
 				<AddItem
 					recordHandler={updateRecordHandler}
 					value={dataTOUpdate}
-					labelName={labelName}
+					labelName={labelName.update}
 				/>
 			)}
 			<List

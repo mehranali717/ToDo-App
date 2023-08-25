@@ -1,7 +1,5 @@
-import { useState } from "react";
 import trashIcon from "../../Assets/Images/trash-can-solid.svg";
 import penIcon from "../../Assets/Images/pen-solid.svg";
-import Input from "../Input/Input.js";
 import Button from "../Button/Button.js";
 import "./List.css";
 const List = ({ data, handleDelete, handleUpdate }) => {
