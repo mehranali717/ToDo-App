@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Input from "../../Input/Input";
 import Button from "../../Button/Button";
 import plusIcon from "../../../Assets/Images/plus-solid.svg";
 import "./AddItem.css";
+import LabelName from "../../LabelName/labelName";
 const AddItem = ({ labelName, value, recordHandler }) => {
 	const [updatedData, setupdatedData] = useState("");
 	const recordChangeHandler = (newItem) => {
@@ -14,9 +15,7 @@ const AddItem = ({ labelName, value, recordHandler }) => {
 	return (
 		<>
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
-				<label htmlFor="description" className="formLabel">
-					{labelName}
-				</label>
+				<LabelName labelName={labelName} />
 				<Input onChange={recordChangeHandler} value={updatedData} />
 				<Button
 					icon={plusIcon}

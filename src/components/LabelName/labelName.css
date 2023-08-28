@@ -1,0 +1,8 @@
+.formLabel {
+	text-transform: capitalize;
+	color: #222;
+	font-weight: 700;
+	padding-bottom: 15px;
+	letter-spacing: 1px;
+	font-size: 20px;
+}
