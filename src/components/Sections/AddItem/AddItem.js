@@ -1,27 +1,40 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Input from "../../Input/Input";
 import Button from "../../Button/Button";
 import plusIcon from "../../../Assets/Images/plus-solid.svg";
 import "./AddItem.css";
 import LabelName from "../../LabelName/labelName";
-const AddItem = ({ labelName, value, recordHandler }) => {
-	const [updatedData, setupdatedData] = useState("");
+import labelName from "../../LabelName/labelName";
+const AddItem = ({ value, recordHandler, labelName }) => {
+	console.log("add Item");
+	const [updatedData, setUpdatedData] = useState("");
+	const [count, setCount] = useState(0);
+
 	const recordChangeHandler = (newItem) => {
-		setupdatedData(newItem);
+		setUpdatedData(newItem);
 	};
 	useEffect(() => {
-		setupdatedData(value);
+		setUpdatedData(value);
 	}, [value]);
+	// const labelNameMemo = useMemo(() => {
+	// 	console.log("17");
+	// 	return label;
+	// }, [label]);
+	const memoizedLabelName = useMemo(() => {
+		console.log("Memoized ChildComponent");
+		return <LabelName labelName={labelName} />;
+	}, [labelName]);
 	return (
 		<>
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
-				<LabelName labelName={labelName} />
+				{memoizedLabelName}
+				{/* <labelName labelName={memoizedChild}/> */}
 				<Input onChange={recordChangeHandler} value={updatedData} />
 				<Button
 					icon={plusIcon}
 					onClick={() => {
 						recordHandler(updatedData);
-						setupdatedData("");
+						setUpdatedData("");
 					}}
 				/>
 				<div className="hrLine"></div>

@@ -1,10 +1,8 @@
 import trashIcon from "../../Assets/Images/trash-can-solid.svg";
 import penIcon from "../../Assets/Images/pen-solid.svg";
 import Button from "../Button/Button.js";
-import { memo } from "react";
 import "./List.css";
-const ListComponent = memo(function List({ data, handleDelete, handleUpdate }) {
-	console.log("Lost componnent");
+const ListComponent = function List({ data, handleDelete, handleUpdate }) {
 	return (
 		<>
 			{data.map((item, index) => (
@@ -16,5 +14,5 @@ const ListComponent = memo(function List({ data, handleDelete, handleUpdate }) {
 			))}
 		</>
 	);
-});
+};
 export default ListComponent;

@@ -1,10 +1,10 @@
 import { memo } from "react";
-const labelName = memo(function LabelName({ labelName }) {
-	// console.log("LaabelName");
+const labelName = function LabelName({ labelName }) {
+	console.log("LabelName");
 	return (
 		<>
 			<label className="formLabel">{labelName}</label>
 		</>
 	);
-});
+};
 export default labelName;
