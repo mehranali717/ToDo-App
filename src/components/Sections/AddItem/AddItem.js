@@ -3,30 +3,35 @@ import Input from "../../Input/Input";
 import Button from "../../Button/Button";
 import plusIcon from "../../../Assets/Images/plus-solid.svg";
 import "./AddItem.css";
-const AddItem = ({ labelName, value, recordHandler }) => {
+const AddItem = ({ labelName, value="", recordHandler }) => {
 	const [updatedData, setupdatedData] = useState("");
+	let [userId, setUserId] = useState("");
 	const recordChangeHandler = (newItem) => {
 		setupdatedData(newItem);
 	};
+	const userIdHandler =(userId)=>{
+		setUserId(userId)
+	}
 	useEffect(() => {
 		setupdatedData(value);
 	}, [value]);
 	return (
 		<>
-			<form className="form" onSubmit={(e) => e.preventDefault()}>
-				<label htmlFor="description" className="formLabel">
+			<div className="form">
+				<label  className="formLabel">
 					{labelName}
 				</label>
-				<Input onChange={recordChangeHandler} value={updatedData} />
+				<Input placholder="Enter Description" onChange={recordChangeHandler} value={updatedData} type="text"/>
+				<Input placholder="Enter UserId" onChange={userIdHandler} value={userId} type="text"/>
 				<Button
 					icon={plusIcon}
 					onClick={() => {
-						recordHandler(updatedData);
+						recordHandler(updatedData , userId);
 						setupdatedData("");
 					}}
 				/>
 				<div className="hrLine"></div>
-			</form>
+			</div>
 		</>
 	);
 };

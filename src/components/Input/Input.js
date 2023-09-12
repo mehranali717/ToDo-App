@@ -1,20 +1,18 @@
 import "./Input.css";
-const Input = ({ value, onChange }) => {
+const Input = ({ value, onChange , id , placholder, type}) => {
 	const handleInputChange = (e) => {
 		onChange(e);
 	};
 	return (
-		<>
 			<input
-				placeholder="Enter Description"
+				placeholder={placholder?placholder:"Enter Description"}
 				className="input"
-				type="text"
-				id="record"
+				type={type?type:"text"}
+				id={id?id:"record"}
 				name="record"
 				value={value}
 				onChange={(e) => handleInputChange(e.target.value)}
 			/>
-		</>
 	);
 };
 export default Input;
