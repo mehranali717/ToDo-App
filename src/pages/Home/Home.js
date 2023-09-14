@@ -1,75 +1,61 @@
 import List from "../../components/List/List.js";
 import AddItem from "../../components/Sections/AddItem/AddItem";
 import { useEffect, useState } from "react";
+import {useNavigate } from "react-router-dom";
 import "./Home.css";
+import Button from "../../components/Button/Button.js";
 const Home = () => {
-	// debugger
+	const navigate = useNavigate()
 	const [listData, setListData] = useState([]);
-	const [dataTOUpdate, setdataTOUpdate] = useState("");
+	const [dataTOUpdate, setdataTOUpdate] = useState({});
 	const labelName = { discription: "Discription", update: "Update" };
-	const updatedData = (message,userId) => {
-		addItemToList(message , userId)
+	const updatedData = (message ) => {
+		addItemToList(message )
 	};
-	const addItemToList = async (title , userId) =>{
-		const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-			method: 'POST',
-			body: JSON.stringify({
-				title: title,
-				userId : userId,
-			}),
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-			},
-})
-  const json = await response.json()
-   setListData([json, ...listData])
-	}
-	const deleteRecord = async (userId) => {
+	const fetchData = async(method  , body=undefined , url='')=>{
 		try {
-			  await	fetch('https://jsonplaceholder.typicode.com/posts/'+userId, {
- 			 method: 'DELETE',
-		}
-		);
-		 setListData([...listData.filter((ele) => ele.userId !== userId)]);
+			const response = await fetch('https://jsonplaceholder.typicode.com/posts'+url, {
+				method: method,
+				body: body ,
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+				},
+			})
+			return await response.json()
 		} catch (error) {
-			console.log(error)
+			return console.log({error})
 		}
+	}
+	async function getData(){
+		const json = await fetchData('GET')
+		setListData([...json])
+	}
+	const addItemToList = async (title) =>{
+ 		const json = await fetchData('POST' ,JSON.stringify({ title}))
+   		setListData([json, ...listData])
+	}
+	const deleteRecord = async (id) => {
+		await fetchData('DELETE' , undefined , `/${id}`);
+		setListData([...listData.filter((ele) => ele.id !== id)]);
 	};
-	const updateRecordHandler = async (item , userId) => {
-		const response =  await fetch(`https://jsonplaceholder.typicode.com/posts/${userId}` ,{
-			method: 'PUT',
-			body: JSON.stringify({
-				title: item,
-			}),
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-			},
-			});
-				const updatedRecord  = await response.json()
-				const updatedIndex = listData.findIndex((record) => record.userId === userId);
+	const updateRecordHandler = async (title , index =dataTOUpdate.index) => {
+		// debugger
+				const updatedRecord = await fetchData('PUT' , JSON.stringify({ title}) , "/"+index)
 				let updatedList = [...listData];
-				updatedList[updatedIndex] = updatedRecord;
+				updatedList[index] = updatedRecord;
 				setListData(updatedList);
+				// setdataTOUpdate("")
 			};
 
-	const getIndexAndValue = (item, index) => {
-		setdataTOUpdate(item);
+	const getIndexAndValue = (title , index) => {
+		setdataTOUpdate({title , index});
 	};
-	async function logTodos(){
-		try {
-			const response =  await fetch ("https://jsonplaceholder.typicode.com/todos");
-		const json = await response.json()
-		setListData([...json])
-		} catch (error) {
-			console.log(error.message)
-		}
-	}
 	useEffect(()=>{
-		logTodos()
+		getData()
 	},[])
 	return (
 		<>
-			{!dataTOUpdate ? (
+			{Object.keys(dataTOUpdate).length===0 ? (
 				<AddItem
 					recordHandler={updatedData}
 					labelName={labelName.discription}
@@ -77,10 +63,11 @@ const Home = () => {
 			) : (
 				<AddItem
 					recordHandler={updateRecordHandler}
-					value={dataTOUpdate}
+					value={dataTOUpdate.title}
 					labelName={labelName.update}
 				/>
 			)}
+				<Button text="View Cart" onClick={()=>navigate('/cart')}/>
 			<List
 				data={listData}
 				handleDelete={deleteRecord}

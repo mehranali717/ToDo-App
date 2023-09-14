@@ -1,8 +1,8 @@
 import {useLocation} from 'react-router-dom';
-
 const View =()=>{
     const location= useLocation();
-    console.log({location})
-    return <h1>{location.state.title} </h1>
+    return <div className='listForm'>
+        <p className='input'>{location.state.title} </p>
+    </div>
 }
 export default View

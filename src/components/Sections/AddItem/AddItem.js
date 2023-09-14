@@ -5,28 +5,23 @@ import plusIcon from "../../../Assets/Images/plus-solid.svg";
 import "./AddItem.css";
 const AddItem = ({ labelName, value="", recordHandler }) => {
 	const [updatedData, setupdatedData] = useState("");
-	let [userId, setUserId] = useState("");
-	const recordChangeHandler = (newItem) => {
-		setupdatedData(newItem);
+	const recordChangeHandler = (e) => {
+		setupdatedData(e.target.value);
 	};
-	const userIdHandler =(userId)=>{
-		setUserId(userId)
-	}
 	useEffect(() => {
 		setupdatedData(value);
-	}, [value]);
+	},[value]);
 	return (
 		<>
 			<div className="form">
 				<label  className="formLabel">
 					{labelName}
 				</label>
-				<Input placholder="Enter Description" onChange={recordChangeHandler} value={updatedData} type="text"/>
-				<Input placholder="Enter UserId" onChange={userIdHandler} value={userId} type="text"/>
+				<Input placeholder="Enter Description" onChange={recordChangeHandler} value={updatedData} type="text"/>
 				<Button
 					icon={plusIcon}
 					onClick={() => {
-						recordHandler(updatedData , userId);
+						recordHandler(updatedData);
 						setupdatedData("");
 					}}
 				/>

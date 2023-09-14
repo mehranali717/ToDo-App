@@ -1,8 +1,8 @@
 import "./Button.css";
-const Button = (props) => {
+const Button = ({text, icon , onClick}) => {
 	return (
-		<button className="default-btn"  onClick={props.onClick}>
-			{props.text?props.text:<img src={props.icon} className="Icon" alt="button"/>}
+		<button className="default-btn"  onClick={onClick}>
+			{text || <img src={icon} className="Icon" alt="button"/>}
 		</button>
 	);
 };
