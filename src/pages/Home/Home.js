@@ -6,6 +6,7 @@ import "./Home.css";
 import Button from "../../components/Button/Button.js";
 const Home = () => {
 	const navigate = useNavigate()
+	const [loading , setLoading] = useState(false)
 	const [listData, setListData] = useState([]);
 	const [dataTOUpdate, setdataTOUpdate] = useState({});
 	const labelName = { discription: "Discription", update: "Update" };
@@ -14,13 +15,14 @@ const Home = () => {
 	};
 	const fetchData = async(method  , body=undefined , url='')=>{
 		try {
-			const response = await fetch('https://jsonplaceholder.typicode.com/posts'+url, {
+			const response = await fetch('https://jsonplaceholder.typicode.com/posts'+`${url}`, {
 				method: method,
 				body: body ,
 				headers: {
 					'Content-type': 'application/json; charset=UTF-8',
 				},
 			})
+			 setLoading(false)
 			return await response.json()
 		} catch (error) {
 			return console.log({error})
@@ -51,10 +53,15 @@ const Home = () => {
 		setdataTOUpdate({title , index});
 	};
 	useEffect(()=>{
-		getData()
+		setLoading(true)
+			getData()
+		return () =>{
+			delete getData()
+		}
 	},[])
 	return (
 		<>
+		<h3>{loading ? "Loading.." : "Loaded"}</h3>
 			{Object.keys(dataTOUpdate).length===0 ? (
 				<AddItem
 					recordHandler={updatedData}
