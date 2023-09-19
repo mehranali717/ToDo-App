@@ -2,6 +2,7 @@ import List from "../../components/List/List.js";
 import AddItem from "../../components/Sections/AddItem/AddItem";
 import { useEffect, useState } from "react";
 import {useNavigate } from "react-router-dom";
+import { Spinner } from "reactstrap";
 import "./Home.css";
 import Button from "../../components/Button/Button.js";
 const Home = () => {
@@ -41,7 +42,6 @@ const Home = () => {
 		setListData([...listData.filter((ele) => ele.id !== id)]);
 	};
 	const updateRecordHandler = async (title , index =dataTOUpdate.index) => {
-		// debugger
 				const updatedRecord = await fetchData('PUT' , JSON.stringify({ title}) , "/"+index)
 				let updatedList = [...listData];
 				updatedList[index] = updatedRecord;
@@ -61,7 +61,7 @@ const Home = () => {
 	},[])
 	return (
 		<>
-		<h3>{loading ? "Loading.." : "Loaded"}</h3>
+		
 			{Object.keys(dataTOUpdate).length===0 ? (
 				<AddItem
 					recordHandler={updatedData}
@@ -75,11 +75,13 @@ const Home = () => {
 				/>
 			)}
 				<Button text="View Cart" onClick={()=>navigate('/cart')}/>
-			<List
+			{loading ? <Spinner color="dark" type="border" style={{margin: " 0 auto" , display:"block"}}>
+				</Spinner> : <List
 				data={listData}
 				handleDelete={deleteRecord}
 				handleUpdate={getIndexAndValue}
 			/>
+}
 		</>
 	);
 };
